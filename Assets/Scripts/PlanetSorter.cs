@@ -22,6 +22,7 @@ public class PlanetSorter : IDisposable
         _sortedPlanetsByX = planets.OrderBy(planet => (int) planet.Position.x).ToList();
     }
 
+    // General complexity  O(n) + O(n log n) + O(n log n) + O(n)
     public List<PlanetModel> GetNearestPlanets(int fieldView, Vector3 currentPlayerPosition, int countPlanets, int playerRank)
     {
         var closestPlanets = new List<PlanetModel>();
@@ -54,6 +55,7 @@ public class PlanetSorter : IDisposable
         _sortedPlanetsByX = _sortedPlanetsByX.OrderBy(planet => (int) planet.Position.x).ToList();
     }
 
+    // Complexity O(n)
     private List<PlanetModel> GetNearestPlanetsByRank(int countPlanets, int playerRank, int index, List<PlanetModel> planetsInSight)
     {
         var closestPlanets = new List<PlanetModel>();
@@ -89,6 +91,7 @@ public class PlanetSorter : IDisposable
                Math.Abs(planetsInSight[rightBorder].Rank - playerRank);
     }
 
+    // Complexity O(n) + O(n log n)
     private List<PlanetModel> SortPlanetsInFieldOfViewByAscendingRank(int fieldView, Vector3 currentPlayerPosition)
     {
         var xPosition = (int) currentPlayerPosition.x;
@@ -105,6 +108,7 @@ public class PlanetSorter : IDisposable
         return planetsInSight;
     }
 
+    // Complexity O(n log n)
     private int SearchNearestIndexByValue(int playerRank, List<PlanetModel> planetsInSight, int index)
     {
         if (playerRank <= planetsInSight[0].Rank)
