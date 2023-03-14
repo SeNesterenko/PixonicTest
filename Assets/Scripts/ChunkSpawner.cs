@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Events;
+using Models;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,14 +16,7 @@ public class ChunkSpawner : MonoBehaviour
     public List<ChunkModel> Initialize(int chunkSize, List<Vector2> indexes)
     {
         _chunkSize = chunkSize;
-        var chunkModels = new List<ChunkModel>();
-
-        foreach (var index in indexes)
-        {
-            chunkModels.Add(StartSpawnChunk(index));
-        }
-        
-        return chunkModels;
+        return indexes.Select(StartSpawnChunk).ToList();
     }
 
     public ChunkModel SpawnChunk(Vector2 currentPosition)
@@ -38,9 +33,8 @@ public class ChunkSpawner : MonoBehaviour
         var yPosition = (int)(currentPosition.y + 1) * _chunkSize;
         
         var planets = GeneratePlanetModels(xPosition, yPosition);
-        var chunkPosition = new Vector3(xPosition, yPosition);
-        
-        var chunkModel = new ChunkModel(planets, chunkPosition);
+
+        var chunkModel = new ChunkModel(planets);
         return chunkModel;
     }
 

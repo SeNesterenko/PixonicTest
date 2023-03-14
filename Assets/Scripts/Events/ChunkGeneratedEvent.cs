@@ -1,3 +1,4 @@
+using Models;
 using Plugins.SimpleEventBus.Events;
 
 namespace Events

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Models;
 using UnityEngine;
 
 public class NearestPlanetsController : MonoBehaviour
@@ -12,7 +13,6 @@ public class NearestPlanetsController : MonoBehaviour
     public void Initialize(Dictionary<Vector2, ChunkModel> chunks)
     {
         var planets = chunks.SelectMany(chunk => chunk.Value.Planets).ToList();
-
         _planetSorter = new PlanetSorter(planets);
     }
 

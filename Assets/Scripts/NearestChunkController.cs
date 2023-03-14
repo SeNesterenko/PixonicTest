@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Models;
 using UnityEngine;
 
 public class NearestChunkController : MonoBehaviour
@@ -15,7 +16,6 @@ public class NearestChunkController : MonoBehaviour
             for (var y = -1; y <= 1; y++)
             {
                 var chunk = chunks[new Vector2(currentIndexPosition.x + x, currentIndexPosition.y + y)];
-
                 planets.AddRange(chunk.Planets);
             }
         }

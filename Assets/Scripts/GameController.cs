@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cinemachine;
 using Events;
+using Models;
 using Plugins.SimpleEventBus.Disposables;
 using UnityEngine;
 
@@ -9,9 +10,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private ChunkSpawner _chunkSpawner;
     [SerializeField] private NearestPlanetsController _nearestPlanetsController;
     [SerializeField] private NearestChunkController _nearestChunkController;
+    
     [SerializeField] private Player _player;
-
     [SerializeField] private CinemachineVirtualCamera _playerCamera;
+    
     [SerializeField] private int _startQuantityChunks = 100;
     [SerializeField] private int _chunkSize = 100;
     [SerializeField] private int _countPlanetsInSpecialMode = 20;
@@ -34,10 +36,31 @@ public class GameController : MonoBehaviour
             EventStreams.Game.Subscribe<NormalModeActivatedEvent>(OnActiveNormalMode)
         };
 
-        var currentIndexPosition = SetCurrentPositionIndexes(); 
-        var chunkStartIndex = (int)Mathf.Sqrt(_startQuantityChunks) / 2;
+        InitializeControllers();
+    }
+
+    private void InitializeControllers()
+    {
+        var currentIndexPosition = SetCurrentPositionIndexes();
+        var chunkStartIndex = (int) Mathf.Sqrt(_startQuantityChunks) / 2;
+
+        var chunkIndexes = CollectStartIndexesChunks(chunkStartIndex, currentIndexPosition);
+        var chunkModels = _chunkSpawner.Initialize(_chunkSize, chunkIndexes);
+
+        for (var i = 0; i < chunkModels.Count; i++)
+        {
+            _chunks.Add(chunkIndexes[i], chunkModels[i]);
+        }
+
+        _nearestPlanetsController.Initialize(_chunks);
+
+        _nearestChunkController.DisplayNearestChunks(currentIndexPosition, _chunks, _defaultPlanetSize);
+    }
+
+    private static List<Vector2> CollectStartIndexesChunks(int chunkStartIndex, Vector2 currentIndexPosition)
+    {
         var chunkIndexes = new List<Vector2>();
-        
+
         for (var x = -chunkStartIndex; x <= chunkStartIndex; x++)
         {
             for (var y = -chunkStartIndex; y <= chunkStartIndex; y++)
@@ -45,17 +68,8 @@ public class GameController : MonoBehaviour
                 chunkIndexes.Add(new Vector2(currentIndexPosition.x + x, currentIndexPosition.y + y));
             }
         }
-        
-        var chunkModels = _chunkSpawner.Initialize(_chunkSize, chunkIndexes);
-        
-        for (var i = 0; i < chunkModels.Count; i++)
-        {
-            _chunks.Add(chunkIndexes[i], chunkModels[i]);
-        }
-        
-        _nearestPlanetsController.Initialize(_chunks);
-        
-        _nearestChunkController.DisplayNearestChunks(currentIndexPosition, _chunks, _defaultPlanetSize);
+
+        return chunkIndexes;
     }
 
     private void OnActiveNormalMode(NormalModeActivatedEvent eventData)
@@ -114,9 +128,8 @@ public class GameController : MonoBehaviour
         if (_isSpecialModeOn && _currentPlayerPosition != _player.transform.position)
         {
             ActivateNearestPlanetsController();
+            _currentPlayerPosition = _player.transform.position;
         }
-
-        _currentPlayerPosition = _player.transform.position;
     }
 
     private Vector2 SetCurrentPositionIndexes()

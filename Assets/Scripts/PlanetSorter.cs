@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Events;
+using Models;
 using Plugins;
 using Plugins.SimpleEventBus.Disposables;
 using UnityEngine;
@@ -20,18 +21,6 @@ public class PlanetSorter : IDisposable
         
         _sortedPlanetsByX = planets.OrderBy(planet => (int) planet.Position.x).ToList();
     }
-    
-    public void ResortPlanets(ChunkGeneratedEvent eventData)
-    {
-        var newPlanets = eventData.ChunkModel.Planets;
-        
-        foreach (var planet in newPlanets)
-        {
-            _sortedPlanetsByX.Add(planet);
-        }
-
-        _sortedPlanetsByX = _sortedPlanetsByX.OrderBy(planet => (int) planet.Position.x).ToList();
-    }
 
     public List<PlanetModel> GetNearestPlanets(int fieldView, Vector3 currentPlayerPosition, int countPlanets, int playerRank)
     {
@@ -47,6 +36,22 @@ public class PlanetSorter : IDisposable
         }
 
         return closestPlanets;
+    }
+    
+    public void Dispose()
+    {
+        _subscriptions?.Dispose();
+    }
+    private void ResortPlanets(ChunkGeneratedEvent eventData)
+    {
+        var newPlanets = eventData.ChunkModel.Planets;
+        
+        foreach (var planet in newPlanets)
+        {
+            _sortedPlanetsByX.Add(planet);
+        }
+
+        _sortedPlanetsByX = _sortedPlanetsByX.OrderBy(planet => (int) planet.Position.x).ToList();
     }
 
     private List<PlanetModel> GetNearestPlanetsByRank(int countPlanets, int playerRank, int index, List<PlanetModel> planetsInSight)
@@ -118,10 +123,5 @@ public class PlanetSorter : IDisposable
         }
         
         return index;
-    }
-
-    public void Dispose()
-    {
-        _subscriptions?.Dispose();
     }
 }
