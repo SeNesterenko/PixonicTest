@@ -1,6 +1,7 @@
 #### Тестовое задание на позицию UnityDeveloper.
 
-### **Билд на проект в папке Build**
+### **Билд на проект**
+ https://drive.google.com/file/d/1X1DO8yiqdHJEEaddOukAzjeF08IeZScN/view?usp=sharing
 
 ### **Задание:** 
 + **1. Сцена**
