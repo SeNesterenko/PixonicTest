@@ -170,10 +170,9 @@ MonoBehaviour:
   _chunkSpawner: {fileID: 680274424}
   _nearestPlanetsController: {fileID: 1830067357}
   _nearestChunkController: {fileID: 1704871890}
+  _worldGenerator: {fileID: 1981566683}
   _player: {fileID: 1613042513}
   _playerCamera: {fileID: 1332042327}
-  _startQuantityChunks: 100
-  _chunkSize: 100
   _countPlanetsInSpecialMode: 20
   _sizeRelativeCamera: 15
 --- !u!1 &519420028
@@ -530,6 +529,7 @@ Transform:
   - {fileID: 1830067356}
   - {fileID: 1704871889}
   - {fileID: 1961695839}
+  - {fileID: 1981566682}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -630,7 +630,7 @@ MonoBehaviour:
   _playerCamera: {fileID: 1332042327}
   _minFieldView: 5
   _maxFieldView: 10000
-  _distanceCameraForSpecialMode: 60
+  _distanceCameraForSpecialMode: 10
 --- !u!114 &1613042509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,6 +877,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _planetView: {fileID: 2523142242571857342, guid: f9dbb8dd1ea065c41b728ce6995c93c0, type: 3}
+--- !u!1 &1981566681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1981566682}
+  - component: {fileID: 1981566683}
+  m_Layer: 0
+  m_Name: WorldGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1981566682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981566681}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1031312246}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1981566683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981566681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93084ca5acd4f11b0acd7c9e50253fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chunkSize: 100
+  _startQuantityChunks: 100
 --- !u!1 &2097395738
 GameObject:
   m_ObjectHideFlags: 0
