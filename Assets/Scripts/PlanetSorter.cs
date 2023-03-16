@@ -22,7 +22,6 @@ public class PlanetSorter : IDisposable
         _sortedPlanetsByX = planets.OrderBy(planet => (int) planet.Position.x).ToList();
     }
 
-    // General complexity  O(n) + O(n log n) + O(n log n) + O(n)
     public List<PlanetModel> GetNearestPlanets(int fieldView, Vector3 currentPlayerPosition, int countPlanets, int playerRank)
     {
         var closestPlanets = new List<PlanetModel>();
